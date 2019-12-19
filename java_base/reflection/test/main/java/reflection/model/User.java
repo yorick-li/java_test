@@ -1,12 +1,16 @@
 package reflection.model;
 
+import com.yorick.pro.java_test.java_base.reflection.annotation.ChangeLog;
+
 /**
  *
  */
 public class User {
 
     private Long id;
+    @ChangeLog(description = "用户名")
     private String name;
+    @ChangeLog(description = "性别")
     private String sex;
 
     public Long getId() {

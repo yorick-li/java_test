@@ -16,6 +16,7 @@
         <module>reflection</module>
         <module>multi_thread</module>
         <module>utils</module>
+        <module>mail</module>
     </modules>
 
 

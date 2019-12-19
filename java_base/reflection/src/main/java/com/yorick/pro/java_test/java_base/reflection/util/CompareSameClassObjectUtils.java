@@ -1,5 +1,6 @@
 package com.yorick.pro.java_test.java_base.reflection.util;
 
+import com.yorick.pro.java_test.java_base.reflection.annotation.ChangeLog;
 import com.yorick.pro.java_test.java_base.reflection.model.ObjChangeLog;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -50,25 +51,35 @@ public class CompareSameClassObjectUtils {
         // 用于存放改变的字段
         List<ObjChangeLog> changeLogs = new ArrayList<>(fields.size());
         fields.forEach(field -> {
-            try {
-                field.setAccessible(Boolean.TRUE);
-                Object oldValue = field.get(oldObj);
-                Object newValue = field.get(newObj);
-                // 2. 比对 oldObj 与 newObj 的值===>若不相同,则创建 ObjChangeLog 实体,为其设置值,加到List中,并返回
+            String fieldName = field.getName();
+            // 以下写法：会被视为安全漏洞
+            /*
+            field.setAccessible(Boolean.TRUE);
+            Object oldValue = field.get(oldObj);
+            Object newValue = field.get(newObj);
+             */
+            Object oldValue = FieldUtils.getFieldValByName(oldObj, fieldName);
+            Object newValue = FieldUtils.getFieldValByName(newObj, fieldName);
+            // 2. 比对 oldObj 与 newObj 的值===>若不相同,则创建 ObjChangeLog 实体,为其设置值,加到List中,并返回
+            ChangeLog changeLogAnnotation = field.getAnnotation(ChangeLog.class);
+            // 若字段需要记录===>则记录
+            if (!Objects.isNull(changeLogAnnotation) && changeLogAnnotation.log()) {
+
                 // 旧值与新值是否相同的标志位:true->相同;false->不同
                 boolean equal = (Objects.isNull(oldValue) && Objects.isNull(newValue))
                         || (!Objects.isNull(oldObj) && !Objects.isNull(newValue) && oldObj.equals(newValue));
+
                 if (!equal) {
                     ObjChangeLog changeLog = new ObjChangeLog();
-                    changeLog.setFieldName(field.getName());
+                    changeLog.setFieldName(fieldName);
                     changeLog.setOldValue(Objects.isNull(oldValue) ? null : oldValue.toString());
                     changeLog.setNewValue(Objects.isNull(newValue) ? null : newValue.toString());
+                    changeLog.setFieldDesc(changeLogAnnotation.description());
                     changeLogs.add(changeLog);
                 }
-            } catch (IllegalAccessException e) {
-                System.out.println(oldObj.getClass().getName()+" 的对象："+ oldObj.toString() + "，" + field.getName() + " 字段无权限访问！");
-                e.printStackTrace();
+
             }
+
         });
 
         return changeLogs;

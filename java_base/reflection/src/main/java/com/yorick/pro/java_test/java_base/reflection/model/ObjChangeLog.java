@@ -17,6 +17,10 @@ public class ObjChangeLog {
      * 新值
      */
     private String newValue;
+    /**
+     * 字段描述
+     */
+    private String fieldDesc;
 
     public String getFieldName() {
         return fieldName;
@@ -42,12 +46,21 @@ public class ObjChangeLog {
         this.newValue = newValue;
     }
 
+    public String getFieldDesc() {
+        return fieldDesc;
+    }
+
+    public void setFieldDesc(String fieldDesc) {
+        this.fieldDesc = fieldDesc;
+    }
+
     @Override
     public String toString() {
         return "ObjChangeLog{" +
                 "fieldName='" + fieldName + '\'' +
                 ", oldValue='" + oldValue + '\'' +
                 ", newValue='" + newValue + '\'' +
+                ", fieldDesc='" + fieldDesc + '\'' +
                 '}';
     }
 }
