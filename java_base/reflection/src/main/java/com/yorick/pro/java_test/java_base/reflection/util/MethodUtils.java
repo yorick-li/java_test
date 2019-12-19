@@ -1,6 +1,7 @@
 package com.yorick.pro.java_test.java_base.reflection.util;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -34,16 +35,14 @@ public class MethodUtils {
      * @param methodName 方法名
      * @param parameterType 方法的参数类型列表
      */
-    public <T, U> Optional<U> getMethodReturnType(T obj, String methodName, Class<U> returnTypeClass, Class<?>... parameterType) {
+    public <T, U> Optional<Class<?>> getMethodReturnType(T obj, String methodName, Class<?>... parameterType) {
         Optional<Method> optionalMethod = getMethod(obj, methodName, parameterType);
         if (optionalMethod.isPresent()) {
             Method method = optionalMethod.get();
-
             Class<?> returnType = method.getReturnType();
-
-
+            return Optional.of(returnType);
         }
-        return null;
+        return Optional.ofNullable(null);
     }
 
 }
