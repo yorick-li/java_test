@@ -17,6 +17,7 @@
         <module>multi_thread</module>
         <module>utils</module>
         <module>mail</module>
+        <module>jdbc_a</module>
     </modules>
 
 

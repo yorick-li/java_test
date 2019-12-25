@@ -10,6 +10,7 @@
 
     <modules>
         <module>java_base</module>
+        <module>bbs_bccn</module>
     </modules>
 
 
