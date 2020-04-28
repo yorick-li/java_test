@@ -12,6 +12,14 @@
         <module>java_base</module>
         <module>bbs_bccn</module>
     </modules>
+    
+    <!-- <dependencies>
+    	<dependency>
+    		<artifactId>org.projectlombok</artifactId>
+    		<groupId>lombok</groupId>
+    		<version>1.16.10</version>
+    	</dependency>
+    </dependencies> -->
 
 
 </project>
